@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Explan.Backend.Common\Explan.Backend.Common.csproj" />
+    <ProjectReference Include="..\Explan.Backend.Data\Explan.Backend.Data.csproj" />
+  </ItemGroup>
+
+</Project>
