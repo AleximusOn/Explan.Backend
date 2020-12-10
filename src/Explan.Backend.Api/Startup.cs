@@ -1,8 +1,12 @@
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
+using Explan.Backend.Api.Di;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 
 namespace Explan.Backend.Api
@@ -16,6 +20,8 @@ namespace Explan.Backend.Api
 
 		public IConfiguration Configuration { get; }
 
+		public ILifetimeScope AutofacContainer { get; private set; }
+
 		public void ConfigureServices(IServiceCollection services)
 		{
 
@@ -28,6 +34,8 @@ namespace Explan.Backend.Api
 
 		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 		{
+			AutofacContainer = app.ApplicationServices.GetAutofacRoot();
+			
 			if (env.IsDevelopment())
 			{
 				app.UseDeveloperExceptionPage();
@@ -45,6 +53,11 @@ namespace Explan.Backend.Api
 			{
 				endpoints.MapControllers();
 			});
+		}
+
+		public void ConfigureContainer(ContainerBuilder builder)
+		{
+			builder.RegisterModule(new ApiModule());
 		}
 	}
 }
