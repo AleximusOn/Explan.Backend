@@ -2,6 +2,8 @@ using System.IO;
 using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using NLog.Web;
 
 namespace Explan.Backend.Api
 {
@@ -12,7 +14,7 @@ namespace Explan.Backend.Api
 			CreateHostBuilder(args).Build().Run();
 		}
 
-		public static IHostBuilder CreateHostBuilder(string[] args) =>
+		private static IHostBuilder CreateHostBuilder(string[] args) =>
 			Host.CreateDefaultBuilder(args)
 				.UseServiceProviderFactory(new AutofacServiceProviderFactory())
 				.ConfigureWebHostDefaults(webBuilder =>
@@ -20,6 +22,12 @@ namespace Explan.Backend.Api
 					webBuilder
 						.UseContentRoot(Directory.GetCurrentDirectory())
 						.UseStartup<Startup>();
-				});
+				})
+				.ConfigureLogging(logging =>
+				{
+					logging.ClearProviders();
+					logging.SetMinimumLevel(LogLevel.Debug);
+				})
+				.UseNLog();
 	}
 }
