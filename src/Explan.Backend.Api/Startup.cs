@@ -1,12 +1,13 @@
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Explan.Backend.Api.Di;
+using Explan.Backend.Data.DataBase;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 
 namespace Explan.Backend.Api
@@ -24,6 +25,8 @@ namespace Explan.Backend.Api
 
 		public void ConfigureServices(IServiceCollection services)
 		{
+			services.AddDbContext<AppDbContext>(o =>
+				o.UseInMemoryDatabase(Configuration.GetConnectionString("default")));
 
 			services.AddControllers();
 			services.AddSwaggerGen(c =>
