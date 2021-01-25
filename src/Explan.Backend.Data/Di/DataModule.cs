@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using Explan.Backend.Data.Inftastructure;
 
 namespace Explan.Backend.Data.Di
 {
@@ -6,7 +7,8 @@ namespace Explan.Backend.Data.Di
 	{
 		protected override void Load(ContainerBuilder builder)
 		{
-			base.Load(builder);
+			builder.RegisterType<UnitOfWork>().As<IUnitOfWork>();
+			builder.RegisterType<DbContextFactory>().As<IDbContextFactory>();
 		}
 	}
 }
